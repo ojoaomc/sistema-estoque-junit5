@@ -2,8 +2,6 @@ package com.example.danhpaiva;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThrows;
-import static org.junit.Assert.assertTrue;
-
 import org.junit.Before;
 import org.junit.Test;
 
@@ -85,4 +83,11 @@ public class SistemaEstoqueTest {
     assertThrows(IllegalArgumentException.class, () -> sistemaEstoque.removerProduto("Cinto", -1));
     assertEquals(0, sistemaEstoque.obterHistoricoTransacoes().size());
   }
+
+  @Test
+  void consultarEstoque_produtoExistente_retornaQuantidade() {
+    sistemaEstoque.adicionarProduto("Mochila", 7);
+    assertEquals(7, sistemaEstoque.consultarEstoque("Mochila"));
+  }
+
 }
