@@ -34,9 +34,55 @@ public class SistemaEstoqueTest {
   }
 
   @Test
-  void adicionarProduto_nomeNuloOuVazio_lancaIllegalArgumentException() {
+  public void adicionarProduto_nomeNuloOuVazio_lancaIllegalArgumentException() {
     assertThrows(IllegalArgumentException.class, () -> sistemaEstoque.adicionarProduto(null, 5));
     assertThrows(IllegalArgumentException.class, () -> sistemaEstoque.adicionarProduto(" ", 5));
+    assertEquals(0, sistemaEstoque.obterHistoricoTransacoes().size());
+  }
+
+  @Test
+  public void adicionarProduto_quantidadeZeroOuNegativa_lancaIllegalArgumentException() {
+    assertThrows(IllegalArgumentException.class, () -> sistemaEstoque.adicionarProduto("Meia", 0));
+    assertThrows(IllegalArgumentException.class, () -> sistemaEstoque.adicionarProduto("Meia", -2));
+    assertEquals(0, sistemaEstoque.obterHistoricoTransacoes().size());
+  }
+
+  @Test
+  public void removerProduto_produtoExistenteComEstoqueSuficiente_decrementaEstoque() {
+    sistemaEstoque.adicionarProduto("Sapato", 15);
+    sistemaEstoque.removerProduto("Sapato", 7);
+    assertEquals(8, sistemaEstoque.consultarEstoque("Sapato"));
+    assertEquals(2, sistemaEstoque.obterHistoricoTransacoes().size());
+    assertEquals("Adicionado 15 unidade(s) de Sapato", sistemaEstoque.obterHistoricoTransacoes().get(0));
+    assertEquals("Removido 7 unidade(s) de Sapato", sistemaEstoque.obterHistoricoTransacoes().get(1));
+  }
+
+  @Test
+  public void removerProduto_produtoNaoExistente_lancaIllegalArgumentException() {
+    assertThrows(IllegalArgumentException.class, () -> sistemaEstoque.removerProduto("Jaqueta", 2));
+    assertEquals(0, sistemaEstoque.obterHistoricoTransacoes().size());
+  }
+
+  @Test
+  public void removerProduto_estoqueInsuficiente_lancaIllegalArgumentException() {
+    sistemaEstoque.adicionarProduto("Luva", 5);
+    assertThrows(IllegalArgumentException.class, () -> sistemaEstoque.removerProduto("Luva", 10));
+    assertEquals(5, sistemaEstoque.consultarEstoque("Luva")); // Verifica se o estoque não foi alterado
+    assertEquals(1, sistemaEstoque.obterHistoricoTransacoes().size());
+    assertEquals("Adicionado 5 unidade(s) de Luva", sistemaEstoque.obterHistoricoTransacoes().get(0));
+  }
+
+  @Test
+  public void removerProduto_nomeNuloOuVazio_lancaIllegalArgumentException() {
+    assertThrows(IllegalArgumentException.class, () -> sistemaEstoque.removerProduto(null, 1));
+    assertThrows(IllegalArgumentException.class, () -> sistemaEstoque.removerProduto(" ", 1));
+    assertEquals(0, sistemaEstoque.obterHistoricoTransacoes().size());
+  }
+
+  @Test
+  public void removerProduto_quantidadeZeroOuNegativa_lancaIllegalArgumentException() {
+    assertThrows(IllegalArgumentException.class, () -> sistemaEstoque.removerProduto("Cinto", 0));
+    assertThrows(IllegalArgumentException.class, () -> sistemaEstoque.removerProduto("Cinto", -1));
     assertEquals(0, sistemaEstoque.obterHistoricoTransacoes().size());
   }
 }
