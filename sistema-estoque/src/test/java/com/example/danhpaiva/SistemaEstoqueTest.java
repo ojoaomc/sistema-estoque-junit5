@@ -4,9 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
-
 import java.util.List;
-
 import org.junit.Before;
 import org.junit.Test;
 
@@ -129,5 +127,22 @@ public class SistemaEstoqueTest {
   public void verificarDisponibilidade_produtoExistenteComEstoqueInsuficiente_retornaFalse() {
     sistemaEstoque.adicionarProduto("Agenda", 12);
     assertFalse(sistemaEstoque.verificarDisponibilidade("Agenda", 15));
+  }
+
+  @Test
+  public void verificarDisponibilidade_produtoNaoExistente_retornaFalse() {
+    assertFalse(sistemaEstoque.verificarDisponibilidade("Teclado", 3));
+  }
+
+  @Test
+  public void verificarDisponibilidade_nomeNuloOuVazio_lancaIllegalArgumentException() {
+    assertThrows(IllegalArgumentException.class, () -> sistemaEstoque.verificarDisponibilidade(null, 2));
+    assertThrows(IllegalArgumentException.class, () -> sistemaEstoque.verificarDisponibilidade(" ", 2));
+  }
+
+  @Test
+  public void verificarDisponibilidade_quantidadeZeroOuNegativa_lancaIllegalArgumentException() {
+    assertThrows(IllegalArgumentException.class, () -> sistemaEstoque.verificarDisponibilidade("Mouse", 0));
+    assertThrows(IllegalArgumentException.class, () -> sistemaEstoque.verificarDisponibilidade("Mouse", -1));
   }
 }
