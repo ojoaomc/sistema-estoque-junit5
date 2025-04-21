@@ -1,7 +1,9 @@
 package com.example.danhpaiva;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThrows;
+import static org.junit.Assert.assertTrue;
 
 import java.util.List;
 
@@ -107,10 +109,25 @@ public class SistemaEstoqueTest {
   @Test
   public void obterHistoricoTransacoes_realizaTransacoes_retornaHistorico() {
     sistemaEstoque.adicionarProduto("Caderno", 20);
-    sistemaEstoque.removerProduto("Caneta", 5); // Este produto não existe, mas a exceção não impede o histórico
     List<String> historico = sistemaEstoque.obterHistoricoTransacoes();
-    assertEquals(2, historico.size());
+    assertEquals(1, historico.size());
     assertEquals("Adicionado 20 unidade(s) de Caderno", historico.get(0));
-    assertEquals("Removido 5 unidade(s) de Caneta", historico.get(1));
+  }
+
+  @Test
+  public void obterHistoricoTransacoes_nenhumaTransacao_retornaListaVazia() {
+    assertTrue(sistemaEstoque.obterHistoricoTransacoes().isEmpty());
+  }
+
+  @Test
+  public void verificarDisponibilidade_produtoExistenteComEstoqueSuficiente_retornaTrue() {
+    sistemaEstoque.adicionarProduto("Agenda", 12);
+    assertTrue(sistemaEstoque.verificarDisponibilidade("Agenda", 5));
+  }
+
+  @Test
+  public void verificarDisponibilidade_produtoExistenteComEstoqueInsuficiente_retornaFalse() {
+    sistemaEstoque.adicionarProduto("Agenda", 12);
+    assertFalse(sistemaEstoque.verificarDisponibilidade("Agenda", 15));
   }
 }
