@@ -2,6 +2,9 @@ package com.example.danhpaiva;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThrows;
+
+import java.util.List;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -99,5 +102,15 @@ public class SistemaEstoqueTest {
   public void consultarEstoque_nomeNuloOuVazio_lancaIllegalArgumentException() {
     assertThrows(IllegalArgumentException.class, () -> sistemaEstoque.consultarEstoque(null));
     assertThrows(IllegalArgumentException.class, () -> sistemaEstoque.consultarEstoque(" "));
+  }
+
+  @Test
+  public void obterHistoricoTransacoes_realizaTransacoes_retornaHistorico() {
+    sistemaEstoque.adicionarProduto("Caderno", 20);
+    sistemaEstoque.removerProduto("Caneta", 5); // Este produto não existe, mas a exceção não impede o histórico
+    List<String> historico = sistemaEstoque.obterHistoricoTransacoes();
+    assertEquals(2, historico.size());
+    assertEquals("Adicionado 20 unidade(s) de Caderno", historico.get(0));
+    assertEquals("Removido 5 unidade(s) de Caneta", historico.get(1));
   }
 }
