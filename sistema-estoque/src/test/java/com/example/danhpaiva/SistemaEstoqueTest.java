@@ -85,7 +85,7 @@ public class SistemaEstoqueTest {
   }
 
   @Test
-  void consultarEstoque_produtoExistente_retornaQuantidade() {
+  public void consultarEstoque_produtoExistente_retornaQuantidade() {
     sistemaEstoque.adicionarProduto("Mochila", 7);
     assertEquals(7, sistemaEstoque.consultarEstoque("Mochila"));
   }
