@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 public class SistemaEstoque {
-  private Map<String, Integer> estoque;
+  public Map<String, Integer> estoque;
   private List<String> historicoTransacoes;
 
   public SistemaEstoque() {

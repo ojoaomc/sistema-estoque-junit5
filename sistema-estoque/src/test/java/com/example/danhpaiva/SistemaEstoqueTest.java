@@ -145,4 +145,15 @@ public class SistemaEstoqueTest {
     assertThrows(IllegalArgumentException.class, () -> sistemaEstoque.verificarDisponibilidade("Mouse", 0));
     assertThrows(IllegalArgumentException.class, () -> sistemaEstoque.verificarDisponibilidade("Mouse", -1));
   }
+
+  @Test
+  public void removerProduto_removerTodoEstoque_produtoRemovidoDoEstoque() {
+    sistemaEstoque.adicionarProduto("Boné", 3);
+    sistemaEstoque.removerProduto("Boné", 3);
+    assertEquals(0, sistemaEstoque.consultarEstoque("Boné"));
+    assertFalse(sistemaEstoque.estoque.containsKey("Boné")); // Acessando diretamente para verificar a remoção
+    assertEquals(2, sistemaEstoque.obterHistoricoTransacoes().size());
+    assertEquals("Adicionado 3 unidade(s) de Boné", sistemaEstoque.obterHistoricoTransacoes().get(0));
+    assertEquals("Removido 3 unidade(s) de Boné", sistemaEstoque.obterHistoricoTransacoes().get(1));
+  }
 }
