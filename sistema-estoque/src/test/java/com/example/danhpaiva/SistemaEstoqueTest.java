@@ -90,4 +90,14 @@ public class SistemaEstoqueTest {
     assertEquals(7, sistemaEstoque.consultarEstoque("Mochila"));
   }
 
+  @Test
+  public void consultarEstoque_produtoNaoExistente_retornaZero() {
+    assertEquals(0, sistemaEstoque.consultarEstoque("Livro"));
+  }
+
+  @Test
+  public void consultarEstoque_nomeNuloOuVazio_lancaIllegalArgumentException() {
+    assertThrows(IllegalArgumentException.class, () -> sistemaEstoque.consultarEstoque(null));
+    assertThrows(IllegalArgumentException.class, () -> sistemaEstoque.consultarEstoque(" "));
+  }
 }
