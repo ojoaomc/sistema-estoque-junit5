@@ -1,5 +1,3 @@
-package com.example.danhpaiva;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -24,6 +22,15 @@ public class SistemaEstoque {
 
     estoque.put(nomeProduto, estoque.getOrDefault(nomeProduto, 0) + quantidade);
     historicoTransacoes.add("Adicionado " + quantidade + " unidade(s) de " + nomeProduto);
+  }
+  
+  //Métodos para os testes acessarem os dados
+  public Map<String, Integer> getEstoque() {
+      return estoque;
+  }
+
+  public List<String> getHistoricoTransacoes() {
+      return historicoTransacoes;
   }
 
   public void removerProduto(String nomeProduto, int quantidade) {
